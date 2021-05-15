@@ -1,9 +1,10 @@
 <template>
   <nav class="navbar is-dark">
     <div class="navbar-brand">
-      <router-link to="/"><strong>Ganar CRM</strong></router-link>
+      <router-link to="/" class="navbar-item">
+        <strong>Ganar CRM</strong>
+      </router-link>
     </div>
-
     <div class="navbar-menu">
       <div class="navbar-end">
         <div class="navbar-item">
@@ -23,6 +24,6 @@
 
 <script>
 export default {
-  name: Navbar,
+  name: "Navbar",
 };
 </script>
