@@ -80,4 +80,30 @@
         - The import
         - The component route.
         - *NOTE, in part 2, we add route guard, which will change the code a bit.*
-11. Create the login page (Basically its the same as the SignUp page, but we remove the confirm password, change the password1 to password, and delete password2 and change the name in the script in the bottom of the page - here is the LogIn.vue, add it to the router like in the previous step.
+11. Create the login page (Basically its the same as the SignUp page, but we remove the confirm password, change the password1 to password, and delete password2 and change the name in the script in the bottom of the page - here is the [LogIn.vue](https://pastebin.com/ShGkmMz6), add it to the router like in the previous step, **Don't fogget the import**
+    - ``` 
+        {
+        path: '/log-in',
+        name: 'LogIn',
+        component: LogIn
+        },
+12. Create the `dashboard` directory under `../src/views`
+13. inside `../src/views/dashboard/` create [Dashboard.vue](https://pastebin.com/5EK27jWv)
+    - Don't forget to add it to the router **And don't forget the import**:
+        ```  
+        {
+            path: '/dashboard',
+            name: 'Dashboard',
+            component: Dashboard
+        },
+14. Create [MyAccount.vue](https://pastebin.com/vRuSTENa) under `../src/views/dashboard`, add it to the router just like you did with the Dashboard, under the name MyAccount, and don't forget the imports.
+    - ```
+        {
+        path: '/dashboard/my-account',
+        name: 'MyAccount',
+        component: MyAccount
+        },
+15. Configuring Vuex Store
+    - *The Vuex store is a bunch of functions and variables which will be used all over the application, for example the Token appending, or removing, and the Login validation, each function below will be described and elaborated.*
+    - Te vuex store is the `../src/store/index.js` file, we will add functions to it, and mutations.
+
