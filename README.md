@@ -30,14 +30,17 @@ Things used in this tutorial (Will be updated)
 - ... 
 
 -----
-Done:
+## Done:
 
-Almost done with part 1.
+**Part 1**:
+- Initialization of the project.
+    - creating the project.
+    - adding libraries
+    - creating SignUp / LogIn / Navbar / Dashboard / MyAcoount pages.
+    - basic configuration of the store
+    - added basic router guard.
 
-
-Todo:
-
-Part 1
+## Todo:
 
 Part 2
 
