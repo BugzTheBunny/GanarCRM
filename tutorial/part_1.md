@@ -1,6 +1,6 @@
 
 
-### **Part 1** - Settings the basics:
+### **Part 1** - Settings the basics (Vue):
 
 ---
 ### *Important note, at anypoint after step 3, you can start the application, using `npm run serve` (You have to be inside `ganarcrm_vue`)*
@@ -14,7 +14,7 @@
         - Router
         - Vuex
         - CSS-Pre-proccessors
-        - **remove LInter**
+        - **Remove Linter**
     - 3.x 
     - Use History mode? - Y
     - Sass/SCSS (with dart-sass)

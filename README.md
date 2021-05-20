@@ -20,7 +20,7 @@ Things used in this tutorial (Will be updated)
 - **Django 3** - *An amazing backend framework we will be using*
 - **django-rest-framework** - *this will turn Django into a great API.*
 - **djoser** - *REST implementation of Django authentication system.* 
-- ...
+- **django-cors-headers**
     
 ## *Frontend*
 - **Vue3 CLI** - *We will be using VUE3 as a frontned framework for the app*
