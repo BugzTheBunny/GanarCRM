@@ -342,3 +342,64 @@
         ```
     - **At this point you should be able to log in via the frontned**
 18. **Make it possible to log-out.**
+
+    - open `../src/views/dashboard/MyAccount.vue`
+    - add the button as follows *will elaborate after*
+        ```
+        <template>
+            <div class="container">
+                <div class="colums is-multiline">
+                    <div class="column is-12">
+                        <h1 class="title">My Account</h1>
+                    </div>
+
+                    <!-- Logout -->
+                    <div class="column is-12">
+                        <button @click="logout()" class="button is-danger">Log-out</button>
+                    </div>
+                </div>
+            </div>
+        </template>
+        ```
+        -  `@click="logout()"` - this tells what function to call when the user clicks the button
+    - add all we need for the script
+        - 
+        ```
+        <script>
+            import axios from "axios";
+
+            export default {
+                name: "MyAccount",
+                methods: {
+                    async logout() {},
+                },
+            };
+        </script>
+        ```
+        -*Notice the function is `async`, it's done because we will call another code while the request is sent*
+19. Making the logout function
+    - *Will show the code and elaborate each line*
+    - 
+        ```
+        async logout() {
+            /* send request to backend to logout */
+            await axios
+                .post("/api/v1/token/logout/")
+                .then((response) => {
+                    console.log('logged out');
+                })
+                .catch((error) => {
+                    console.log(JSON.stringify(error));
+                });
+
+            /* clear local data */
+            axios.defaults.headers.common["Authorization"] = "";
+            localStorage.removeItem("token");
+            this.$store.commit("removeToken");
+
+            this.$router.push("/");
+        },
+        ```
+        - `send request to backend to logout` - this part sends a post request to logout the user using the backend, if something goes wrong, an error will be seen in the console (may modify it as you wish)
+        - `clear local data` - removing everything that is relevant to the Authorization and the token, as you see, we again call a fucntion fron the store `removeToken` which will mutate the token status.
+- ## At this point you will have a Log out button in the my-screen page, and it should log you out.
