@@ -219,5 +219,126 @@
             - in the **catch** section, if we get there, we will get a response of errors.
             so we loop on them, and add them to the errors list, which will be in the errors filed.
             - if we get some wierd error, which is not coming from the backend, we will add a custom error. `this.errors.push("Something went wrong..");`
-    - **At this point, you should be able to register via the frontend**
-16. Making the Log-in work
+    - **At this point, you should be able to register via the frontend, you should register a new user, and check it in the admin panel under `Users`**
+16. **Making the Log-in work **
+    - open `../src/views/LogIn.vue`
+    - Add the `v-models` like in the previous and the `@submit.prevent="submitForm"` like in the previous stage, also add notifications just like in the SignUp.
+    - ```
+        ...
+        <form @submit.prevent="submitForm">
+        ...
+            <input type="text" name="email" class="input" v-model="username"/>
+        ...
+            <input type="password" name="password" class="input" v-model="password"/>
+        ...
+        <!-- Notifications -->
+          <div class="notification is-danger" v-if="errors.length">
+            <p v-for="error in errors" v-bind:key="error">
+              {{ error }}
+            </p>
+          </div>
+        ...
+    - add `axios` and`toast` to the script.
+    - add `data()` into the export, like in the sign up page.
+    - add `methods` with `submitForm()` inside.
+    - ```
+        <script>
+        import axios from "axios";
+        import { toast } from "bulma-toast";
+
+        export default {
+        name: "LogIn",
+        data() {
+            return {
+            username: "",
+            password: "",
+            errors: [],
+            };
+        },
+        methods: {
+            submitForm() {},
+        },
+        };
+        </script>
+17. **building `submitForm()`**
+    - *first i will show the code, and then you will see an elaboration about each line*
+    - ```    submitForm() {
+      axios.defaults.headers.common["Authorization"] = "";
+      localStorage.removeItem("token");
+
+      const formData = {
+        username: this.username,
+        password: this.password,
+      };
+
+      axios
+        .post("/api/v1/token/login/", formData)
+        .then((response) => {
+          const token = response.data.auth_token;
+
+          this.$store.commit("setToken", token);
+
+          axios.defaults.headers.common["Authorization"] = "Token " + token;
+
+          localStorage.setItem("token", token);
+
+          this.$router.push("/dashboard/my-account");
+        })
+        .catch((error) => {
+          if (error.response) {
+            for (const property in error.response.data) {
+              this.errors.push(`${property}: ${error.response.data[property]}`);
+            }
+          } else if (error.message) {
+            this.errors.push("Something went wrong..");
+          }
+        });
+        },
+        ```
+    
+    - These two lines will clean the storage and the autorization, in the future we will not be able to access this screen if we are logged in, but for now its a good practice to nullify the Auth data when getting into the login screen.
+
+        ```
+        axios.defaults.headers.common["Authorization"] = ""
+        localStorage.removeItem("token")
+        ```
+    
+    - Creating const formData (will be sent to the backend)
+        ```
+        const formData = {
+            username: this.username,
+            password: this.password,
+        };
+        ```
+    - Sending the data and getting the response from the backend, setting the token we got from the backend
+        ```
+        axios
+            .post("/api/v1/token/login/", formData)
+            .then((response) => {
+                const token = response.data.auth_token;
+
+        ```
+    - calling the `setToken` mutation function from the `store` and sending the token to it.
+        ```
+        this.$store.commit("setToken", token);
+        ```
+    - setting the authorization to the localstroage and for axios, and redirecting the `/dashboard/my-account` in the end
+        ```
+        axios.defaults.headers.common["Authorization"] = "Token " + token;
+        localStorage.setItem("token", token);
+        this.$router.push("/dashboard/my-account");
+        ```
+    - just like in signup, we are catching the error, and showing the errors if there are any.
+        ```
+        .catch((error) => {
+            if (error.response) {
+                    for (const property in error.response.data) {
+                    this.errors.push(`${property}: ${error.response.data[property]}`);
+                    }
+            } else if (error.message) {
+                    this.errors.push("Something went wrong..");
+            }
+        });
+        ```
+    - **At this point you should be able to log in via the frontned**
+18. **Make it possible to log-out.**

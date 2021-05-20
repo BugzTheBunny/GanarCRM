@@ -33,12 +33,21 @@ Things used in this tutorial (Will be updated)
 ## Done:
 
 **Part 1**:
-- Initialization of the project.
+- **Initialization of the project**.
     - creating the project.
     - adding libraries
     - creating SignUp / LogIn / Navbar / Dashboard / MyAcoount pages.
     - basic configuration of the store
     - added basic router guard.
+
+**Part 2**:
+- **Initialization of the backend**
+    - installing libs
+    - creating a project
+    - configuring the backend
+- **Integration of the backend with the frontend**
+    - Making the Signup work from the frontend
+    - Making the Login work from the frontend
 
 ## Todo:
 
