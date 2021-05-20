@@ -20,7 +20,8 @@ Things used in this tutorial (Will be updated)
 - **Django 3** - *An amazing backend framework we will be using*
 - **django-rest-framework** - *this will turn Django into a great API.*
 - **djoser** - *REST implementation of Django authentication system.* 
-- **django-cors-headers**
+- **django-cors-headers** - *fixes cors problems*
+- ...
     
 ## *Frontend*
 - **Vue3 CLI** - *We will be using VUE3 as a frontned framework for the app*
@@ -45,13 +46,13 @@ Things used in this tutorial (Will be updated)
     - installing libs
     - creating a project
     - configuring the backend
+
 - **Integration of the backend with the frontend**
     - Making the Signup work from the frontend
     - Making the Login work from the frontend
+    - Making Logout possible via frontend
 
 ## Todo:
-
-Part 2
 
 Part 3
 
