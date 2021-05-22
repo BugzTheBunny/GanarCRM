@@ -1,6 +1,13 @@
 <template>
   <div>
     <Navbar />
+    <div
+      class="is-loading-bar has-text-centered"
+      v-bind:class="{ 'is-loading': $store.isLoading }"
+    >
+      <div class="lds-dual-ring"></div>
+    </div>
+
     <section class="section">
       <router-view />
     </section>
@@ -9,7 +16,7 @@
 
 <script>
 import Navbar from "@/components/layout/Navbar";
-import axios from "axios"; /* add axios */
+import axios from "axios";
 
 export default {
   name: "App",
@@ -17,15 +24,11 @@ export default {
     Navbar,
   },
   beforeCreate() {
-    /* This function will be called on-create of the app */
-    this.$store.commit("initStore"); /* calling the store initialization */
-
+    this.$store.commit("initStore");
     if (this.$store.state.token) {
-      /* If there is a token in the store state, we will set a token for axios */
       axios.defaults.headers.common["Authorization"] =
         "Token " + this.$store.state.token;
     } else {
-      /* If there's no token is the store, we will not get authorization */
       axios.defaults.headers.common["Authorization"] = "";
     }
   },
@@ -34,4 +37,42 @@ export default {
 
 <style lang="scss">
 @import "../node_modules/bulma";
+
+.lds-dual-ring {
+  display: inline-block;
+  widows: 80px;
+  height: 80px;
+}
+
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  widows: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #ccc;
+  border-color: #ccc transparent #ccc transparent;
+  animation: lds-dual-ring 1.2 linear infinite;
+}
+
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.is-loading-bar {
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+
+  &.is-loading {
+    height: 80px;
+  }
+}
 </style>

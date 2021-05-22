@@ -78,8 +78,9 @@ export default {
     };
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       this.errors = [];
+      this.$store.commit("setIsLoading", true);
 
       if (this.username === "") {
         this.errors.push("The username is missing");
@@ -100,7 +101,7 @@ export default {
           password: this.password1,
         };
 
-        axios
+        await axios
           .post(`/api/v1/users/`, formData)
           .then((response) => {
             toast({
@@ -125,6 +126,7 @@ export default {
               this.errors.push("Something went wrong..");
             }
           });
+        this.$store.commit("setIsLoading", false);
       }
     },
   },
