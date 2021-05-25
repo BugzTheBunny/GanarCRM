@@ -110,7 +110,7 @@
     from django.db.models.deletion import CASCADE
 
 
-    class Lead():
+    class Lead(models.Model):
         NEW = 'new'
         CONTACTED = 'contacted'
         INPROGRESS = 'inprogress'
@@ -164,3 +164,30 @@
 8. update the database
     - `python manage.py makemigrations`
     - `python manage.py migrate`
+9. adding Serializers (They transform the objects into a readable objects for DRF from Django)
+    - under `ganarcrm_django/lead` create `serializers.py`
+    - create a serializer for lead
+        ```
+        from rest_framework import serializers
+        from .models import Lead
+
+        class LeadSerializer(serializers.ModelSerializer):
+            class Meta:
+                model = Lead
+                fields = (
+                    'id',
+                    'company',
+                    'contact_person',
+                    'email',
+                    'phone',
+                    'website',
+                    'confidence',
+                    'estimated_value',
+                    'status',
+                    'priority',
+                    'created_by',
+                    'created_at',
+                    'modified_at'
+                )
+
+        ```

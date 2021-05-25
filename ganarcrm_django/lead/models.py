@@ -4,7 +4,7 @@ from django.db.models.base import Model
 from django.db.models.deletion import CASCADE
 
 
-class Lead():
+class Lead(models.Model):
     NEW = 'new'
     CONTACTED = 'contacted'
     INPROGRESS = 'inprogress'
