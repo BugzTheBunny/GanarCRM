@@ -191,3 +191,237 @@
                 )
 
         ```
+10. View for leads
+    - open `ganarcrm_django/lead/views.py`
+    - change the code as follows
+    ```
+    from django.shortcuts import render
+    from rest_framework import viewsets
+
+    from .models import Lead
+    from .serializers import LeadSerializer
+
+
+    class LeadViewSet(viewsets.ModelViewSet):
+        serializer_class = LeadSerializer
+        queryset = Lead.objects.all()
+
+        def get_queryset(self):
+            return self.queryset.filter(created_by=self.request.user)
+
+    ```
+    - *elaboration* : *we set a view for the serializer, the filtering over there means that we will get only the leads which are created by the current logged in user.*
+11. Set up the URLS.
+    - create `ganarcrm_django/lead/urls.py` and open it
+    - change it as follows:
+        ```
+        from django.conf.urls import url
+        from django.urls import path, include
+        from rest_framework import urlpatterns
+        from rest_framework.routers import DefaultRouter
+        from .views import LeadViewSet
+
+        router = DefaultRouter()
+        router.register('leads', LeadViewSet, basename='leads')
+
+        urlpatterns = [
+            path('', include(router.urls)),
+        ]
+
+        ```
+    - *elaboration* : *Here we registered the LeadViewSet, as leads for the rest api*
+12. add the following path at the end in `ganarcrm_django/ganarcrm_django/urls.py`
+    -  `path('api/v1/', include('lead.urls'))`
+    - *elaboration* : adding the view into the router.
+13. Creating a page for showing leads
+    - under `gabarcrm_vue/src/views/dashboard` create `Leads.vue`
+    - add basic page template as follows:
+    ```
+    <template>
+    <div class="container">
+        <div class="colums is-multiline">
+            <div class="column is-12">
+                <h1 class="title">Leads</h1>
+            </div>
+        </div>
+    </div>
+    </template>
+
+    <script>
+        export default {
+        name: "Leads",
+        };
+    </script>
+    ```
+14. Add the page to the router (`router/index.js`)
+    - add the import, and the route
+    ```
+    ...
+    import Leads from '../views/dashboard/Leads'
+    ...
+    {
+        path: '/dashboard/leads',
+        name: 'Leads',
+        component: Leads,
+        meta: {
+            requiredLogin: true
+        }
+    },
+    ...
+    ```
+15. updating authentication in `ganarcrm_django/ganarcrm_django/settings.py`
+    - We need this settings to make the authentication work properely, add this below CORS_ALLOWERD_ORIGINS list.
+    ```
+    REST_FRAMEWORK = {
+        'DEFAULT_AUTHENTICATION_CLASSES': (
+            'rest_framework.authentication.TokenAuthentication',
+        ),
+        'DEFAULT_PERMISSION_CLASSES': (
+            'rest_framework.permissions.IsAuthenticated',
+        )
+    }
+    ```
+16. Updaing `Leads.vue`:
+    - *Ill devide this into 2 parts, in the end you can see a link to the full page.
+
+    - Script:
+    ```
+    <script>
+    import axios from "axios";
+
+    export default {
+    name: "Leads",
+    data() {
+        return {
+        leads: [],
+        };
+    },
+    mounted() {
+        this.getLeads();
+    },
+    methods: {
+        async getLeads() {
+            this.$store.commit("setIsLoading", true);
+
+            axios
+                .get("/api/v1/leads/")
+                    .then((response) => {
+                    this.leads = response.data;
+                    })
+                .catch((error) => {
+                    conlose.log(error);
+                });
+
+            this.$store.commit("setIsLoading", false);
+            },
+        },
+    };
+    </script>
+    ```
+    - *elaboration*: We create an empty data array, which contains leads, and a functions `getLeads`, the function will call the django api and return data.
+    before this happens, we set the loading status `isLoading` to true, so we can see that the data is loading, after we get the data, we set it to false.
+
+    - Template:
+    ```
+    <template>
+        <div class="container">
+            <div class="colums is-multiline">
+                <div class="column is-12">
+                    <h1 class="title">
+                    Leads
+                    <router-link to="/dashboard/leads/add" class="button is-light">
+                        + Add lead
+                        </router-link>
+                    </h1>
+                </div>
+
+                <div class="column is-12">
+                    <table class="table is-fullwidth">
+                        <thead>
+                            <tr>
+                            <th>Company</th>
+                            <th>Contact Person</th>
+                            <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="lead in leads" v-bind:key="lead.id">
+                            <td>{{ lead.company }}</td>
+                            <td>{{ lead.contact_person }}</td>
+                            <td>{{ lead.status }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </template>
+    ```
+    - *elaboration*: The template recieves the data about the leads that are connected to the specific user which is logged in.
+    - The table has a `<tr>` which iterates on each lead, which will fill the table that we have created.
+    - we have added a button which will allow us to add leads (will redirect to another route)
+    - [Full page](https://pastebin.com/QdfmGp20) on pastebin
+17. Add `AddLead.vue` (also under `../dashboard`) and make a simple template
+    ```
+    <template>
+    <div class="container">
+        <div class="colums is-multiline">
+            <div class="column is-12">
+                <h1 class="title">Add lead</h1>
+            </div>
+        </div>
+    </div>
+    </template>
+
+    <script>
+        export default {
+        name: "AddLead",
+    };
+    </script>
+    ```
+    - add it to the router (`../router/index.js`)
+    ```
+    import AddLead from '../views/dashboard/AddLead'
+    ...
+    {
+        path: '/dashboard/leads/add',
+        name: 'AddLead',
+        component: AddLead,
+        meta: {
+            requiredLogin: true
+        }
+    },
+    ...
+    ```
+18. Adding creation form to `AddLead.vue`
+    - the code is long, so I've pasted it [here](https://pastebin.com/8Acwjhii) **IT DOES NOT HAVE THE SENDING INFORMATION YET**
+    - *elaboration*: This may look scary and long, but its just a simple form, the only new thing that we have added here, is the selection input type
+    ```
+     <div class="field">
+        <label>Status</label>
+        <div class="control">
+            <select class="select" v-model="status">
+            ....
+            </select>
+        </div>
+    </div>
+    ```
+    which just allows us to select an input instead of writing it, the rest is just a normal form, just like the login we did, but for all of the form that you can find the in the script block.
+    ```
+    data() {
+        return {
+            company: "",
+            contact_person: "",
+            email: "",
+            phone: "",
+            website: "",
+            confidance: 0,
+            estimated_value: 0,
+            status: "new",
+            priority: "medium",
+        };
+    },
+    ```
+    - as you can see, we added some default values.
+19. Making the form to actually create the Lead.
+    - on `AddLead.vue` go to the script section, and the `submitForm` function, and edit as followes

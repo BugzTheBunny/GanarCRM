@@ -4,6 +4,9 @@ import SignUp from '../views/SignUp.vue'
 import LogIn from '../views/LogIn.vue'
 import Dashboard from '../views/dashboard/Dashboard'
 import MyAccount from '../views/dashboard/MyAccount'
+import Leads from '../views/dashboard/Leads'
+import AddLead from '../views/dashboard/AddLead'
+
 import store from '../store'
 
 
@@ -18,6 +21,22 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
+    meta: {
+      requiredLogin: true
+    }
+  },
+  {
+    path: '/dashboard/leads',
+    name: 'Leads',
+    component: Leads,
+    meta: {
+      requiredLogin: true
+    }
+  },
+  {
+    path: '/dashboard/leads/add',
+    name: 'AddLead',
+    component: AddLead,
     meta: {
       requiredLogin: true
     }
