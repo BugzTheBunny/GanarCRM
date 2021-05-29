@@ -42,5 +42,5 @@ class Lead(models.Model):
         max_length=25, choices=CHOICES_PRIORITY, default=MEDIUM)
     created_by = models.ForeignKey(
         User, related_name='leads', on_delete=CASCADE)
-    CREATED_AT = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)

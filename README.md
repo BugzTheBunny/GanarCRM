@@ -52,22 +52,18 @@ Things used in this tutorial (Will be updated)
     - Making the Login work from the frontend
     - Making Logout possible via frontend
 
+**Part 3**:
+- **Adding Leads to the app, and some features**
+    - Adding loading bar
+    - Creating Lead model, serializers, views, and viewset.
+    - Creating the Lead pages (Leads list & adding leads pages)
+    - Making the frontend to talk with the backend to create the Lead item.
+
 ## Todo:
 
-Part 3
+- Parts 4-13
+- Add some custome design, which is not from Steins videos.
+- If there wont be Docker in the tutorial, dockerize it.
 
-Part 4
-
-Part 5
-
-Part 6
-
-Part 7
-
-Part 8
-
-Part 9
-
-Part 10
 
 -----

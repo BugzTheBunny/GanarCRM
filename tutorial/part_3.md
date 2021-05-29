@@ -148,7 +148,7 @@
             max_length=25, choices=CHOICES_PRIORITY, default=MEDIUM)
         created_by = models.ForeignKey(
             User, related_name='leads', on_delete=CASCADE)
-        CREATED_AT = models.DateTimeField(auto_now_add=True)
+        created_at = models.DateTimeField(auto_now_add=True)
         modified_at = models.DateTimeField(auto_now=True)
 
     ```
@@ -167,28 +167,28 @@
 9. adding Serializers (They transform the objects into a readable objects for DRF from Django)
     - under `ganarcrm_django/lead` create `serializers.py`
     - create a serializer for lead
+    - You can read about [read_only_fields](https://www.django-rest-framework.org/api-guide/fields/#readonlyfield) in detail, on the high level - A field class that simply returns the value of the field without modification.
         ```
-        from rest_framework import serializers
-        from .models import Lead
-
         class LeadSerializer(serializers.ModelSerializer):
-            class Meta:
-                model = Lead
-                fields = (
-                    'id',
-                    'company',
-                    'contact_person',
-                    'email',
-                    'phone',
-                    'website',
-                    'confidence',
-                    'estimated_value',
-                    'status',
-                    'priority',
-                    'created_by',
-                    'created_at',
-                    'modified_at'
-                )
+        class Meta:
+            model = Lead
+            read_only_fields = (
+                'created_by',
+                'created_at',
+                'modified_at'
+            )
+            fields = (
+                'id',
+                'company',
+                'contact_person',
+                'email',
+                'phone',
+                'website',
+                'confidence',
+                'estimated_value',
+                'status',
+                'priority',
+            )
 
         ```
 10. View for leads
@@ -397,12 +397,16 @@
     - the code is long, so I've pasted it [here](https://pastebin.com/8Acwjhii) **IT DOES NOT HAVE THE SENDING INFORMATION YET**
     - *elaboration*: This may look scary and long, but its just a simple form, the only new thing that we have added here, is the selection input type
     ```
-     <div class="field">
-        <label>Status</label>
+    <div class="field">
+        <label>Priority</label>
         <div class="control">
-            <select class="select" v-model="status">
-            ....
-            </select>
+            <div class="select">
+                <select v-model="priority">
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                </select>
+            </div>
         </div>
     </div>
     ```
@@ -423,5 +427,74 @@
     },
     ```
     - as you can see, we added some default values.
-19. Making the form to actually create the Lead.
-    - on `AddLead.vue` go to the script section, and the `submitForm` function, and edit as followes
+19. To make this work, we will need to create a small modification on `ganarcrm_django/lead/views.py`
+    - update the class:
+    ```
+    class LeadViewSet(viewsets.ModelViewSet):
+        serializer_class = LeadSerializer
+        queryset = Lead.objects.all()
+
+        def get_queryset(self):
+            return self.queryset.filter(created_by=self.request.user)
+
+        def perform_create(self, serializer):
+            serializer.save(created_by=self.request.user)
+
+    ```
+    
+    - *elaboration*:
+    ```
+    perform_create(self, serializer) - Called by CreateModelMixin when saving a new object instance.
+    ```
+    
+20. Making the form to actually create the Lead.
+    - on `AddLead.vue` go to the script section, and edit as followes.
+    ```
+    <script>
+    import axios from "axios";
+    export default {
+    name: "AddLead",
+    data() {
+        return {
+        company: "",
+        contact_person: "",
+        email: "",
+        phone: "",
+        website: "",
+        confidance: 0,
+        estimated_value: 0,
+        status: "new",
+        priority: "medium",
+        };
+    },
+    methods: {
+        async submitForm() {
+        this.$store.commit("setIsLoading", true);
+        const lead = {
+            company: this.company,
+            contact_person: this.contact_person,
+            email: this.email,
+            phone: this.phone,
+            website: this.website,
+            estimated_value: this.estimated_value,
+            confidance: this.confidance,
+            status: this.status,
+            priority: this.priority,
+        };
+        await axios
+            .post("/api/v1/leads/", lead)
+            .then((respose) => {
+            console.log(respose);
+
+            this.$router.push("/dashboard/leads");
+            })
+            .catch((error) => {
+            console.log(error);
+            });
+        this.$store.commit("setIsLoading", false);
+        },
+    },
+    };
+    </script>
+    ```
+    - *elaboration*: we created a functions, that will send the data which is taken from the fields we fill, and will send it to the backend, also you can notice that again, we use the loading status, to manage the loading bar, after the data is sent to the backend, we print the response in the console, and redirect back to the leads list, after the redirection, we set the `isLoading` to false again.

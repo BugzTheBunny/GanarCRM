@@ -5,6 +5,11 @@ from .models import Lead
 class LeadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lead
+        read_only_fields = (
+            'created_by',
+            'created_at',
+            'modified_at'
+        )
         fields = (
             'id',
             'company',
@@ -16,7 +21,4 @@ class LeadSerializer(serializers.ModelSerializer):
             'estimated_value',
             'status',
             'priority',
-            'created_by',
-            'created_at',
-            'modified_at'
         )
