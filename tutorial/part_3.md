@@ -346,7 +346,11 @@
                         </thead>
                         <tbody>
                             <tr v-for="lead in leads" v-bind:key="lead.id">
-                            <td>{{ lead.company }}</td>
+                            <td>
+                                <router-link :to="{ name: 'Lead', params: { id: lead.id } }">
+                                    <strong>{{ lead.company }}</strong>
+                                </router-link>
+                            </td>
                             <td>{{ lead.contact_person }}</td>
                             <td>{{ lead.status }}</td>
                             </tr>
@@ -361,6 +365,15 @@
     - The table has a `<tr>` which iterates on each lead, which will fill the table that we have created.
     - we have added a button which will allow us to add leads (will redirect to another route)
     - [Full page](https://pastebin.com/QdfmGp20) on pastebin
+    - **NOTE** - 
+    about this `<td>`, in this line we are adding a redirections to the specific lead view, this will be used in the future to redirect to the page, using the ID of the lead.
+    ```
+    <td>
+        <router-link :to="{ name: 'Lead', params: { id: lead.id } }">
+            <strong>{{ lead.company }}</strong>
+        </router-link>
+    </td>
+    ```
 17. Add `AddLead.vue` (also under `../dashboard`) and make a simple template
     ```
     <template>
@@ -498,3 +511,6 @@
     </script>
     ```
     - *elaboration*: we created a functions, that will send the data which is taken from the fields we fill, and will send it to the backend, also you can notice that again, we use the loading status, to manage the loading bar, after the data is sent to the backend, we print the response in the console, and redirect back to the leads list, after the redirection, we set the `isLoading` to false again.
+
+
+## At this point, you should be able to create leads, with your account, and view them in the table of the leads.
