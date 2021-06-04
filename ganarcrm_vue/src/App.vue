@@ -3,7 +3,7 @@
     <Navbar />
     <div
       class="is-loading-bar has-text-centered"
-      v-bind:class="{ 'is-loading': $store.isLoading }"
+      v-bind:class="{ 'is-loading': $store.state.isLoading }"
     >
       <div class="lds-dual-ring"></div>
     </div>
@@ -40,20 +40,20 @@ export default {
 
 .lds-dual-ring {
   display: inline-block;
-  widows: 80px;
+  width: 80px;
   height: 80px;
 }
 
 .lds-dual-ring:after {
   content: " ";
   display: block;
-  widows: 64px;
+  width: 64px;
   height: 64px;
   margin: 8px;
   border-radius: 50%;
   border: 6px solid #ccc;
   border-color: #ccc transparent #ccc transparent;
-  animation: lds-dual-ring 1.2 linear infinite;
+  animation: lds-dual-ring 1.2s linear infinite;
 }
 
 @keyframes lds-dual-ring {

@@ -62,7 +62,7 @@
               <input
                 type="number"
                 class="input"
-                v-model="confidance"
+                v-model="confidence"
                 placeholder="Confidance"
               />
             </div>
@@ -117,6 +117,8 @@
 
 <script>
 import axios from "axios";
+import { toast } from "bulma-toast";
+
 export default {
   name: "AddLead",
   data() {
@@ -126,7 +128,7 @@ export default {
       email: "",
       phone: "",
       website: "",
-      confidance: 0,
+      confidence: 0,
       estimated_value: 0,
       status: "new",
       priority: "medium",
@@ -142,14 +144,21 @@ export default {
         phone: this.phone,
         website: this.website,
         estimated_value: this.estimated_value,
-        confidance: this.confidance,
+        confidence: this.confidence,
         status: this.status,
         priority: this.priority,
       };
       await axios
         .post("/api/v1/leads/", lead)
         .then((respose) => {
-          console.log(respose);
+          toast({
+            message: `${lead.company} lead was added`,
+            type: "is-success",
+            dismissible: true,
+            pauseOnHover: true,
+            duration: 2000,
+            position: "bottom-right",
+          });
 
           this.$router.push("/dashboard/leads");
         })

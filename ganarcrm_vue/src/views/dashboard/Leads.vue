@@ -17,6 +17,7 @@
               <th>Company</th>
               <th>Contact Person</th>
               <th>Status</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -28,6 +29,13 @@
               </td>
               <td>{{ lead.contact_person }}</td>
               <td>{{ lead.status }}</td>
+              <td>
+                <router-link
+                  :to="{ name: 'EditLead', params: { id: lead.id } }"
+                  class="button is-light"
+                  ><strong>Edit</strong></router-link
+                >
+              </td>
             </tr>
           </tbody>
         </table>

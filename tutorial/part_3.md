@@ -7,8 +7,8 @@
     - open `../src/views/App.vue` and add the following code just below the <Navbar/>
         - 
         ```
-        <div class="is-loading-bar has-text-centered" v-bind:class="{ 'is-loading': $store.isLoading }">
-            <div class="lds-dual-ring"></div>
+        <div class="is-loading-bar has-text-centered" v-bind:class="{ 'is-loading': $store.state.isLoading }">
+                <div class="lds-dual-ring"></div>
         </div>
         ```
         - *Whats going on?*:
@@ -21,10 +21,14 @@
         ```
         /* some design and positioning for the ring */
 
-        .lds-dual-ring {
+        
+        .lds-dual-ring {        display: inline-block;
+        width: 80px;
+        height: 8
+
             display: inline-block;
             width: 80px;
-            height: 80px;
+            height: 8
         }
         ```
         
@@ -34,13 +38,13 @@
         .lds-dual-ring:after {
             content: " ";
             display: block;
-            widows: 64px;
+            width: 64px;
             height: 64px;
             margin: 8px;
             border-radius: 50%;
             border: 6px solid #ccc;
             border-color: #ccc transparent #ccc transparent;
-            animation: lds-dual-ring 1.2 linear infinite;
+            animation: lds-dual-ring 1.2s linear infinite;
         }
         ```
 
@@ -188,6 +192,8 @@
                 'estimated_value',
                 'status',
                 'priority',
+                'created_at',
+                'modified_at'
             )
 
         ```
@@ -288,6 +294,7 @@
     ```
     <script>
     import axios from "axios";
+    
 
     export default {
     name: "Leads",
@@ -432,7 +439,7 @@
             email: "",
             phone: "",
             website: "",
-            confidance: 0,
+            confidence: 0,
             estimated_value: 0,
             status: "new",
             priority: "medium",
@@ -465,6 +472,8 @@
     ```
     <script>
     import axios from "axios";
+    import { toast } from "bulma-toast"
+
     export default {
     name: "AddLead",
     data() {
@@ -474,7 +483,7 @@
         email: "",
         phone: "",
         website: "",
-        confidance: 0,
+        confidence: 0,
         estimated_value: 0,
         status: "new",
         priority: "medium",
@@ -490,16 +499,24 @@
             phone: this.phone,
             website: this.website,
             estimated_value: this.estimated_value,
-            confidance: this.confidance,
+            confidence: this.confidence,
             status: this.status,
             priority: this.priority,
         };
         await axios
             .post("/api/v1/leads/", lead)
             .then((respose) => {
-            console.log(respose);
 
-            this.$router.push("/dashboard/leads");
+                toast({
+                            message: 'The lead was added',
+                            type: 'is-success',
+                            dismissible: true,
+                            pauseOnHover: true,
+                            duration: 2000,
+                            position: 'bottom-right'
+                        })
+
+                this.$router.push("/dashboard/leads");
             })
             .catch((error) => {
             console.log(error);
@@ -510,7 +527,7 @@
     };
     </script>
     ```
-    - *elaboration*: we created a functions, that will send the data which is taken from the fields we fill, and will send it to the backend, also you can notice that again, we use the loading status, to manage the loading bar, after the data is sent to the backend, we print the response in the console, and redirect back to the leads list, after the redirection, we set the `isLoading` to false again.
+    - *elaboration*: we created a functions, that will send the data which is taken from the fields we fill, and will send it to the backend, also you can notice that again, we use the loading status, to manage the loading bar, after the data is sent to the backend, we print the response in the console, and redirect back to the leads list, after the redirection, we set the `isLoading` to false again, also, we added bulma toast for showing a notification using it.
 
 
 ## At this point, you should be able to create leads, with your account, and view them in the table of the leads.

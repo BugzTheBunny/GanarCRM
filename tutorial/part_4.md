@@ -160,4 +160,4 @@
     ```
     - *elaboration*: as you can see, there are a few new things here, due the fact that we want the links to be dynamic, and the data retrival to be specific to the lead id, we are using dynamic url to request, meaning we use `.get(`/api/v1/leads/${leadID}/`)`, when using ` instead of ' , you are able to format the string,so we request the specific id.
     we get the id from the url parameters.
-8. **Make it possible to edit the lead.**
+8. **Make it possible to edit the lead.**:
