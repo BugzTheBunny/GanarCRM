@@ -59,9 +59,18 @@ Things used in this tutorial (Will be updated)
     - Creating the Lead pages (Leads list & adding leads pages)
     - Making the frontend to talk with the backend to create the Lead item.
 
+**Part 4**:
+- **Adding Lead view, and Lead editing optionality**
+    - Fixing the navbar a bit and adding leads bunotttons.
+    - hiding and showing items if logged in or not
+    - Creating lead view
+    - Creating lead editing optionality
+not
+**Part 5**:
+- **Part 5**
 ## Todo:
 
-- Parts 4-13
+- Parts 5-15
 - Add some custome design, which is not from Steins videos.
 - If there wont be Docker in the tutorial, dockerize it.
 
