@@ -25,6 +25,9 @@ export default {
   },
   beforeCreate() {
     this.$store.commit("initStore");
+
+    console.log(`Logged in as ${this.$store.state.user.username}`);
+
     if (this.$store.state.token) {
       axios.defaults.headers.common["Authorization"] =
         "Token " + this.$store.state.token;

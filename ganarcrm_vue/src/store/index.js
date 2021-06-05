@@ -5,7 +5,15 @@ export default createStore({
     /*These variables will be used across the application*/
     isLoading: false,
     isAuthenticated: false,
-    token: ''
+    token: '',
+    user: {
+      id: 0,
+      username: ''
+    },
+    team: {
+      id: 0,
+      name: ''
+    }
   },
   mutations: {
     initStore(state) {
@@ -19,11 +27,22 @@ export default createStore({
         and the token will be added */
         state.token = localStorage.getItem('token')
         state.isAuthenticated = true
+        state.user.username = localStorage.getItem('username')
+        state.user.id = localStorage.getItem('userid')
+        state.team.id = localStorage.getItem('team_id')
+        state.team.name = localStorage.getItem('team_name')
+
+
       } else {
         /* If we don't have a token inside the storage
         we will not be authenticated */
         state.token = ''
         state.isAuthenticated = false
+        state.user.id = 0
+        state.user.username = ''
+        state.team.id = 0
+        state.team.name = ''
+
       }
     },
     setIsLoading(state, status) {
@@ -35,9 +54,19 @@ export default createStore({
       state.isAuthenticated = true
     },
     removeToken(state) {
-      /* This function will clear the token, and remove the authentication */
+      /* This function will clear the token, and remove the authenticatiidon */
       state.token = ''
       state.isAuthenticated = false
+    },
+    setUser(state, user) {
+      state.user = user
+    },
+    setTeam(state, team) {
+      state.team = team
+
+      localStorage.setItem('team_id', team.id)
+      localStorage.setItem('team_name', team.name)
+
     }
   },
   actions: {

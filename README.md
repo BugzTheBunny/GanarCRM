@@ -65,7 +65,8 @@ Things used in this tutorial (Will be updated)
     - hiding and showing items if logged in or not
     - Creating lead view
     - Creating lead editing optionality
-not
+
+
 **Part 5**:
 - **Part 5**
 ## Todo:
