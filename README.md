@@ -68,10 +68,13 @@ Things used in this tutorial (Will be updated)
 
 
 **Part 5**:
-- **Part 5**
+- **Adding teams**
+    - Added teams, serializers, views, and view sets, with a some custom functions.
+    - Fixed some login items that were needed to be fixed to work properely with the teams.
+
 ## Todo:
 
-- Parts 5-15
+- Parts 6-15
 - Add some custome design, which is not from Steins videos.
 - If there wont be Docker in the tutorial, dockerize it.
 

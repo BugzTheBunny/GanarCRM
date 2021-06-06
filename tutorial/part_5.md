@@ -39,7 +39,7 @@
         from .models import Team
 
 
-        class UserSerializer(serializers.Serializer):
+        class UserSerializer(serializers.ModelSerializer):
             class Meta:
                 model = User
                 fields = (
@@ -50,7 +50,7 @@
                 )
 
 
-        class TeamSerializer(serializers.Serializer):
+        class TeamSerializer(serializers.ModelSerializer):
 
             members = UserSerializer(many=True, read_only=True)
 
@@ -99,7 +99,7 @@
     from .views import TeamViewSet
 
     router = DefaultRouter()
-    router.register('leads', TeamViewSet, basename='teams')
+    router.register('teams', TeamViewSet, basename='teams')
 
     urlpatterns = [
         path('', include(router.urls)),
@@ -155,7 +155,7 @@
       state.user = user
     }
     ```
-5. Add the new function to LogIn.vue, to make the login save the data in the local storage, for further user.
+6. Add the new function to LogIn.vue, to make the login save the data in the local storage, for further user.
     - Add a new axios call under the previous axios call.
     ```
     await axios
@@ -177,7 +177,7 @@
     ```
      - *elaboration*: we call for the user data the `users/me` is a built in djoser url, which will retrun the data about the currently logged in user, then we use this data to call the function of setUser, and to save the data in the local storage, **NOTE** that we removed the `this.$router.push("/dashboard/my-account");` from the first call, and moved it to the second one, so we will get redirected only after the second call.
 
-6. Add Team name and Team id.
+7. Add Team name and Team id.
     - add team object to the store.
     ```
     ...
@@ -218,3 +218,213 @@
 
         }
     ```
+7. Redirect the user if he does not have a team.
+    - open `App.vue`
+    - inside beforeCreate, after the else statement, add another if, this will redirect us to `add-team` page, which we did **not create** yet.
+    ```
+    ...
+    } else {
+      axios.defaults.headers.common["Authorization"] = "";
+    }
+
+    if (!this.$store.state.team.id) {
+      this.$router.push("/dashboard/add-team");
+    }
+    ...
+    ```
+8. Create page for adding teams.
+    - create `src/views/dashboard/AddTeam.vue`
+    - add a default template
+    ```
+    <template>
+    <div class="container">
+        <div class="colums is-multiline">
+            <div class="column is-12">
+                <h1 class="title">Add team</h1>
+            </div>
+        </div>
+    </div>
+    </template>
+
+    <script>
+    import axios from "axios";
+    import { toast } from "bulma-toast";
+
+    export default {
+        name: "AddTeam",
+        data() {},
+        methods: {},
+    };
+    </script>
+    ```
+    - Add everything we need to the router as always.
+    ```
+    ...
+    import AddTeam from '../views/dashboard/AddTeam'
+    ...
+    {
+        path: '/dashboard/add-team',
+        name: 'AddTeam',
+        component: AddTeam,
+        meta: {
+            requiredLogin: true
+        }
+    },
+    ...
+    ```
+9. Adding a from to `AddTeam`.
+    - in this form we need only team name at this point.
+    ```
+    ...
+            <h1 class="title">Add team</h1>
+        </div>
+
+        <div class="column is-6 is-offset-right-4">
+            <form @submit.prevent="submitForm">
+            <div class="field">
+                <div class="control">
+                <input
+                    type="text"
+                    class="input"
+                    v-model="name"
+                    placeholder="Team Name"
+                />
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                <button class="button is-success">Add Team</button>
+                </div>
+            </div>
+            </form>
+    ...
+    ```
+    - Add submitForm function for adding teams
+    - There is nothing new over here, pretty much a copy of the previous forms, but much simpler.
+    ```
+    export default {
+    name: "AddTeam",
+    data() {
+        return {
+        name: "",
+        };
+    },
+    methods: {
+        async sumitForm() {
+        this.$store.commit("setIsLoading", true);
+        const team = {
+            name: this.name,
+        };
+        await axios
+            .post("/api/v1/teams", team)
+            .then((response) => {
+            toast({
+                message: `${this.name} team was added`,
+                type: "is-success",
+                dismissible: true,
+                pauseOnHover: true,
+                duration: 2000,
+                position: "bottom-right",
+            });
+
+            this.$store.commit("setTeam", {
+                id: response.data.id,
+                name: this.name,
+            });
+
+            this.$router.push("/dashboard/my-account");
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        this.$store.commit("setIsLoading", false);
+        },
+    },
+    };
+    </script>
+    ```
+    - **At this point** you should be able to add teams.
+9. Fixing loging to implement teams.
+    - Open `ganarcrm_django/team/views.py`
+    add the following:
+    ```
+    from rest_framework.decorators import api_view
+    from rest_framework.response import Response
+    ...
+    # This should be added after the class!
+    @api_view(['GET'])
+    def get_my_team(request):
+        team = Team.objects.filter(created_by=request.user).first()
+        serializer = TeamSerializer(team)
+        return Response(serializer.data)
+    ...
+    ```
+    - *elaboration*: we created a function which will return the team of the currently logged user, we wrap the data with serialization, and return a response of the data.
+
+    - Add the url of the function above inside `teams/urls.py`.
+    - add `path('teams/get_my_team/', get_my_team, name='get_my_team')`
+    - **It's important that it will be above the other path.**
+    ```
+    urlpatterns = [
+        path('teams/get_my_team/', get_my_team, name='get_my_team'),
+        path('', include(router.urls)),
+    ]
+    ```
+10. Adding another `axios` call into `LogIn.vue`
+    - we moved the redirection down again to the new function.
+    - This function will return the team data from the backend.
+    ```
+    ...
+      await axios
+        .get("/api/v1/teams/get_my_team/")
+        .then((response) => {
+          this.$store.commit("setTeam", {
+            id: reponse.data.id,
+            name: response.data.name,
+          });
+
+          this.$router.push("/dashboard/my-account");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      this.$store.commit("setIsLoading", false);
+    },
+    ...
+    ```
+11. Fixing logout.
+    - We need to remove username, userid, and team just like we remove the token.
+    - open `MyAccount.vue`
+    go to the script section, and add the things just like below:
+    ```
+    ...
+      axios.defaults.headers.common["Authorization"] = "";
+      localStorage.removeItem("token");
+
+      localStorage.removeItem("username");
+      localStorage.removeItem("userid");
+      localStorage.removeItem("team_name");
+      localStorage.removeItem("team_id");
+
+      this.$store.commit("removeToken");
+
+      this.$router.push("/");
+    ...
+    ```
+12. Bonus, you can add 
+```
+console.log(`Logged in as ${this.$store.state.user.username} | ${this.$store.state.team.name}`
+```
+in App.vue under the `beforeCreate()`
+```
+beforeCreate() {
+    this.$store.commit("initStore");
+
+    console.log(
+      `Logged in as ${this.$store.state.user.username} | ${this.$store.state.team.name}`
+    );
+```
+ in order to see the current data.
+
+ ### Done with part 5.

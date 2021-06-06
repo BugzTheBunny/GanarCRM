@@ -105,13 +105,24 @@ export default {
 
           localStorage.setItem("username", response.data.username);
           localStorage.setItem("id", response.data.username);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      await axios
+        .get("/api/v1/teams/get_my_team/")
+        .then((response) => {
+          this.$store.commit("setTeam", {
+            id: reponse.data.id,
+            name: response.data.name,
+          });
 
           this.$router.push("/dashboard/my-account");
         })
         .catch((error) => {
           console.log(error);
         });
-
       this.$store.commit("setIsLoading", false);
     },
   },

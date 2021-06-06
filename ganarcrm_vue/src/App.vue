@@ -26,13 +26,19 @@ export default {
   beforeCreate() {
     this.$store.commit("initStore");
 
-    console.log(`Logged in as ${this.$store.state.user.username}`);
+    console.log(
+      `Logged in as ${this.$store.state.user.username} | ${this.$store.state.team.name}`
+    );
 
     if (this.$store.state.token) {
       axios.defaults.headers.common["Authorization"] =
         "Token " + this.$store.state.token;
     } else {
       axios.defaults.headers.common["Authorization"] = "";
+    }
+
+    if (!this.$store.state.team.id) {
+      this.$router.push("/dashboard/add-team");
     }
   },
 };
