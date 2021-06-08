@@ -380,7 +380,7 @@
         .get("/api/v1/teams/get_my_team/")
         .then((response) => {
           this.$store.commit("setTeam", {
-            id: reponse.data.id,
+            id: response.data.id,
             name: response.data.name,
           });
 
