@@ -5,7 +5,7 @@
 ---
 ### *Important note, at anypoint after step 3, you can start the application, using `npm run serve` (You have to be inside `ganarcrm_vue`)*
 ---
-1. Install Vue (You will need NPM installed) - `npm install -g @vue/cli`
+1. Install Vue (You will need NPM installed) - `npm install -g @vue/cli` (if `npm` is not recognized, download [NodeJS](https://nodejs.org/en/download/))
 
 2. create a project - `vue create ganarcrm_vue --no-git` (*You may ignore the no git, this will just stop the git initialization, it's for myself*)
     - Manually select features
@@ -23,7 +23,10 @@
 
 3. `cd ganarcrm_vue` 
 4. `npm install bulma axios bulma-toast`
-5. Implementing the libraries.
+    - `bulma` - a frontend like bootstrap package.
+    - `axios` - Ajax management package.
+    - `bula-toast` - Notifications package.
+5. **Implementing / confiture the libraries**. [?](https://axios-http.com/docs/config_defaults)
     - adding [axios](https://www.npmjs.com/package/axios) to `ganarcrm_vue/src/main.js`:
     ```
     import { createApp } from 'vue'
@@ -81,15 +84,23 @@
     - SignUp page is [here](https://pastebin.com/3bhbtH1d), copy it.
 10. **Add SignUp page** to `../src/router/index.js`
     - When adding to index JS, you need to add the import, and the components itself, in [THIS](https://pastebin.com/jPrHQnHt) pastebin, ive marked the two things which you need to add when adding a new component if you need it in the route.
-        - The import
-        - The component route.
+        - Update - I've preffered the other version of import, for example:
+        ```
+            {
+                path: '/sign-up',
+                name: 'SignUp',
+                component: () => import('../views/SignUp.vue')
+
+            },
+        ```
+        it seems more clean
         - *NOTE, in part 2, we add route guard, which will change the code a bit.*
 11. **Create the login page** (Basically its the same as the SignUp page, but we remove the confirm password, change the password1 to password, and delete password2 and change the name in the script in the bottom of the page - here is the [LogIn.vue](https://pastebin.com/ShGkmMz6), add it to the router like in the previous step, **Don't fogget the import**
     - ``` 
         {
         path: '/log-in',
         name: 'LogIn',
-        component: LogIn
+        component: () => import('../views/LogIn.vue')
         },
 12. Create the `dashboard` directory under `../src/views`
 13. inside `../src/views/dashboard/` create [Dashboard.vue](https://pastebin.com/5EK27jWv)
@@ -98,20 +109,19 @@
         {
             path: '/dashboard',
             name: 'Dashboard',
-            component: Dashboard
+            component: import('../views/dashboard/Dashboard.vue')
         },
 14. Create [MyAccount.vue](https://pastebin.com/vRuSTENa) under `../src/views/dashboard`, add it to the router just like you did with the Dashboard, under the name MyAccount, and don't forget the imports.
     - ```
         {
         path: '/dashboard/my-account',
         name: 'MyAccount',
-        component: MyAccount
+        component: ...
         },
-15. **Configuring Vuex Store**
-    - *The Vuex store is a bunch of functions and variables which will be used all over the application, for example the Token appending, or removing, and the Login validation, each function below will be described and elaborated.*
+15. **Configuring [Vuex Store](https://vuex.vuejs.org/guide/mutations.html#commit-with-payload) (State / Context Manager)**
+    - *The Vuex store is the context / state manager of vue*
     - Te vuex store is the `../src/store/index.js` file, we will add functions to it, and mutations.
-
-    - The index.js (store) is found [here](https://pastebin.com/HHt9XsU4) with the elaborations.
+    - The index.js (store) is found [here](https://pastebin.com/HHt9XsU4) with explanations.
 16. **Adding the store functions to the views.**
     - in `App.vue` all of the new things below, or just replace the old script block with the new one.
     ```
@@ -133,15 +143,15 @@
                 axios.defaults.headers.common["Authorization"] =
                     "Token " + this.$store.state.token;
             } else {
-                /* If there's no token is the store, we will not get       authorization */
+                /* If there's no token is the store, we will not get authorization */
 
                 axios.defaults.headers.common["Authorization"] = "";
             }
         },
         };
     </script>
-
-17. **Adding router guard**
+- More about [axios.defaults.headers.common["Authorization"]](https://axios-http.com/docs/config_defaults)
+17. **Adding router guard** [More](https://router.vuejs.org/guide/advanced/navigation-guards.html)
     - add `import store from '../store` to router index.js
     - go to the buttom of the page in the router file.
     - above `export default router` add the following code:

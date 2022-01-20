@@ -11,7 +11,14 @@ and maybe someone will find a text version faster (Steins videos are fast enough
 The tutorial is split into a few parts, each part will explain each video in text.
 
 
+### Start app:
 
+#### Vue:
+    - `npm run serve`
+
+
+#### Django:
+    - `python manage.py runserver`
 -----
 ### `You may find the tutorial parts inside the tutorial directory`
 Things used in this tutorial (Will be updated)
@@ -30,14 +37,18 @@ Things used in this tutorial (Will be updated)
 - **Bulma-toast** - *This helps us to show notifications*
 - ... 
 
+--- Update 08/01/22:
+- Starting the course from the begining.
+- Removed all of the code, left the tutorials only, which will be fixed when needed
 -----
+
 ## Done:
 
 **Part 1**:
 - **Initialization of the project**.
     - creating the project.
     - adding libraries
-    - creating SignUp / LogIn / Navbar / Dashboard / MyAcoount pages.
+    - creating SignUp / LogIn / Navbar / Dashboard / MyAccount pages.
     - basic configuration of the store
     - added basic router guard.
 

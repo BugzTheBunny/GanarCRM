@@ -1,72 +1,35 @@
 import { createStore } from 'vuex'
 
 export default createStore({
-  state: {
-    /*These variables will be used across the application*/
+  state: { /* The fields are immutable */
     isLoading: false,
     isAuthenticated: false,
-    token: '',
-    user: {
-      id: 0,
-      username: ''
-    },
-    team: {
-      id: 0,
-      name: ''
-    }
+    token: ''
   },
-  mutations: {
-    initStore(state) {
-      /* This funtion will be called in the initialization of App.vue
-      meaning when we load the app, this will run, and do what it needs.
-      for example the code below will validate the login by checking
-      the token in the local storage */
-      if (localStorage.getItem('token')) {
-        /* Checks if we have a token inside the local storage already
-        if we have a token already, the isAuthenticated status will be set to true
-        and the token will be added */
-        state.token = localStorage.getItem('token')
+  mutations: {/* So we use mutations to change the fields*/
+    initializeStore(state){
+      /* Checks if there's a token in the local browser, aka checks if logged in*/
+      if (localStorage.getItem('token')){
+        state.token=localStorage.getItem('token')
         state.isAuthenticated = true
-        state.user.username = localStorage.getItem('username')
-        state.user.id = localStorage.getItem('userid')
-        state.team.id = localStorage.getItem('team_id')
-        state.team.name = localStorage.getItem('team_name')
-
-
-      } else {
-        /* If we don't have a token inside the storage
-        we will not be authenticated */
+      } else{
         state.token = ''
         state.isAuthenticated = false
-        state.user.id = 0
-        state.user.username = ''
-        state.team.id = 0
-        state.team.name = ''
-
       }
     },
-    setIsLoading(state, status) {
+    
+    setIsLoading(state,status){
       state.isLoading = status
     },
-    setToken(state, token) {
-      /* This function will set the token and make us authenticated */
+
+    setToken(state,token){
       state.token = token
       state.isAuthenticated = true
     },
-    removeToken(state) {
-      /* This function will clear the token, and remove the authenticatiidon */
+
+    removeToken(state){
       state.token = ''
       state.isAuthenticated = false
-    },
-    setUser(state, user) {
-      state.user = user
-    },
-    setTeam(state, team) {
-      state.team = team
-
-      localStorage.setItem('team_id', team.id)
-      localStorage.setItem('team_name', team.name)
-
     }
   },
   actions: {
