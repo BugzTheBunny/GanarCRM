@@ -8,7 +8,7 @@
 4. Installing the libraries:
     - `pip install django django-rest-framework django-cors-headers djoser`
 5. Create django project - `django-admin startproject ganarcrm_django`
-6. Adding libraries in `ganarcrm_django/settings.py`
+6. Adding middleware and configuring in `ganarcrm_django/settings.py`
     - ```
         ALLOWED_HOSTS = []
 
@@ -33,7 +33,7 @@
         'django.middleware.common.CommonMiddleware',
         ...
     ]
-7. Adding Djoser to `ganarcrm_django/urls.py`
+7. Adding Djoser to `ganarcrm_django/urls.py` (This will give us a lot of new functionality - view djoser docs)
     - ```
         from django.contrib import admin
         from django.urls import path, include
@@ -48,13 +48,13 @@
 8. Initialize database:
     - `python manage.py makemigrations`
     - `python manage.py migrate`
-9. `python manage.py createsuperuser`
+9. `python manage.py createsuperuser` - Creating superuser
 10. run server - `python manage.py runserver`
     - You can try to log in in `http://localhost:8000/admin` and take a look at the admin view
 11. Make it possible to sign up from the frontend
     - open `ganarcrm_vue/src/views/SignUp.vue`
     - change the ```<form>``` to ```<form @submit.prevent="submitForm">```
-        - *This will prevent the default behaviour of the HTML*
+        - *This will prevent the default behaviour of the HTML, and replace it with the function we are creating*
     - at the bottom of the page, add some things to the script tag
         - ```
             <script>

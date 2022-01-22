@@ -26,14 +26,14 @@ Things used in this tutorial (Will be updated)
 - **Python 3.x** - *(3.8 for myself)*
 - **Django 3** - *An amazing backend framework we will be using*
 - **django-rest-framework** - *this will turn Django into a great API.*
-- **djoser** - *REST implementation of Django authentication system.* 
+- **djoser** - REST implementation of Django authentication system. djoser library provides a set of Django Rest Framework views to handle basic actions such as registration, login, logout, password reset and account activation. 
 - **django-cors-headers** - *fixes cors problems*
 - ...
     
 ## *Frontend*
 - **Vue3 CLI** - *We will be using VUE3 as a frontned framework for the app*
 - **Bulma** - *CSS framework (You may select another if you wish)*
-- **Axios** - *The glue that combines out backend and frontend*
+- **Axios** - *Ajax Management package*
 - **Bulma-toast** - *This helps us to show notifications*
 - ... 
 

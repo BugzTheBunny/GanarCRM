@@ -168,7 +168,7 @@
 8. update the database
     - `python manage.py makemigrations`
     - `python manage.py migrate`
-9. adding Serializers (They transform the objects into a readable objects for DRF from Django)
+9. adding Serializers (They transform the objects into a readable objects for DRF from Django - Making them readable for the frontend)
     - under `ganarcrm_django/lead` create `serializers.py`
     - create a serializer for lead
     - You can read about [read_only_fields](https://www.django-rest-framework.org/api-guide/fields/#readonlyfield) in detail, on the high level - A field class that simply returns the value of the field without modification.
