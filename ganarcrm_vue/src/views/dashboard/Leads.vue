@@ -15,6 +15,7 @@
                             <th>Company</th>
                             <th>Contact Person</th>
                             <th>Status</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -25,6 +26,12 @@
                         <td>{{lead.company}}</td>
                         <td>{{lead.contact_person}}</td>
                         <td>{{lead.status}}</td>
+                        <td>
+                            <div class="buttons">
+                            <router-link :to="{ name:'Lead' ,params: {id:lead.id}}" class="button is-success">View</router-link>
+                            <router-link :to="{ name:'EditLead' ,params: {id:lead.id}}" class="button is-success">Edit</router-link>
+                            </div>
+                        </td>
                         </tr>
                     </tbody>
                 </table>

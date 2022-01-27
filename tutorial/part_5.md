@@ -108,7 +108,8 @@
     ```
     - open `ganarcrm_django/ganarcrm_django/urls.py`
     - add `path('api/v1/', include('team.urls'))`
-5. After were done with that, we will add the user data to the Vuex (store)
+    
+5. After were done with that, we will add the user data to the Vuex (store) - in order to interact with the items.
     - open `src/store/index.js`
     - add `user` to `state`, this will be the initial data.
     ```

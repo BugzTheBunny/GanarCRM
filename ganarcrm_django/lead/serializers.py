@@ -1,5 +1,4 @@
 from rest_framework import serializers
-
 from .models import Lead
 
 class LeadSerializer(serializers.ModelSerializer):
@@ -21,4 +20,6 @@ class LeadSerializer(serializers.ModelSerializer):
             'estimated_value',
             'status',
             'priority',
+            'created_at',
+            'modified_at',
         )

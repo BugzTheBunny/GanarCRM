@@ -11,30 +11,55 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: () => import('../views/dashboard/Dashboard.vue'),
-    meta:{
-      requireLogin:true
+    meta: {
+      requireLogin: true
     }
   },
   {
     path: '/dashboard/leads',
     name: 'Leads',
     component: () => import('../views/dashboard/Leads.vue'),
-    meta:{
-      requireLogin:true
+    meta: {
+      requireLogin: true
     }
   },
   {
     path: '/dashboard/leads/add',
     name: 'AddLeads',
     component: () => import('../views/dashboard/AddLead.vue'),
-    meta:{
-      requireLogin:true
+    meta: {
+      requireLogin: true
     }
   },
+  {
+    path: '/dashboard/leads/:id',
+    name: 'Lead',
+    component: () => import('../views/dashboard/Lead.vue'),
+    meta: {
+      requireLogin: true
+    }
+  },
+  {
+    path: '/dashboard/leads/:id/edit',
+    name: 'EditLead',
+    component: () => import('../views/dashboard/EditLead.vue'),
+    meta: {
+      requireLogin: true
+    }
+  },
+
   {
     path: '/dashboard/my-account',
     name: 'MyAccount',
     component: () => import('../views/dashboard/MyAccount.vue')
+  },
+  {
+    path: '/dashboard/add-team',
+    name: 'AddTeam',
+    component: () => import('../views/dashboard/AddTeam.vue'),
+    meta: {
+      requireLogin: true
+    }
   },
   {
     path: '/sign-up',
@@ -54,10 +79,10 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from,next) => {
-  if (to.matched.some(record => record.meta.requireLogin) && !store.state.isAuthenticated){
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requireLogin) && !store.state.isAuthenticated) {
     next('/log-in')
-  }else{
+  } else {
     next()
   }
 })
