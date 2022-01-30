@@ -85,9 +85,6 @@ Things used in this tutorial (Will be updated)
 
 ## Todo:
 
-- Parts 6-15
+- Parts 6-15 => This will be done without me adding a tutorial, it takes too long.
 - Add some custome design, which is not from Steins videos.
 - If there wont be Docker in the tutorial, dockerize it.
-
-
------

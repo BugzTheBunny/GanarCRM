@@ -47,7 +47,6 @@ const routes = [
       requireLogin: true
     }
   },
-
   {
     path: '/dashboard/my-account',
     name: 'MyAccount',
@@ -57,6 +56,22 @@ const routes = [
     path: '/dashboard/add-team',
     name: 'AddTeam',
     component: () => import('../views/dashboard/AddTeam.vue'),
+    meta: {
+      requireLogin: true
+    }
+  },
+  {
+    path: '/dashboard/add-member',
+    name: 'AddMember',
+    component: () => import('../views/dashboard/AddMember.vue'),
+    meta: {
+      requireLogin: true
+    }
+  },
+  {
+    path: '/dashboard/team',
+    name: 'Team',
+    component: () => import('../views/dashboard/Team.vue'),
     meta: {
       requireLogin: true
     }

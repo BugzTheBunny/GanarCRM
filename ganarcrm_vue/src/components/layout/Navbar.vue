@@ -21,6 +21,9 @@
               <router-link to="/dashboard/leads" class="button is-info">
                 <strong>Leads</strong>
               </router-link>
+              <router-link to="/dashboard/team" class="button is-info">
+                <strong>Team</strong>
+              </router-link>
               <router-link to="/dashboard/my-account" class="button is-info">
                 <strong>My Account</strong>
               </router-link>

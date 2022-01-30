@@ -18,7 +18,7 @@
     - the console will ask you to input a default value, input 1 and then 1 again.
 
 2. **Fix the lead query**
-    - Now we want to make the lead get request to return all fo the lead connected to the team, and not only the leads of the user.
+    - Now we want to make the lead get request to return all of the lead connected to the team, and not only the leads of the user.
     - open `lead/views.py`
     - change the functions, and add the model import
     ```
@@ -238,7 +238,7 @@
           <div class="column is-12">
         <h1 class="title">
           {{ team.name }}
-          <router-link :to="{ name: 'AddMember' }" class="button is-light">+ Add member</router-link>
+          <router-link :to="{ name: 'AddMember' }" class="button is-light">Add member</router-link>
         </h1>
       </div>
     ```
