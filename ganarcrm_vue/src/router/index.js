@@ -18,7 +18,7 @@ const routes = [
   {
     path: '/dashboard/leads',
     name: 'Leads',
-    component: () => import('../views/dashboard/Leads.vue'),
+    component: () => import('../views/dashboard/leads/Leads.vue'),
     meta: {
       requireLogin: true
     }
@@ -26,7 +26,7 @@ const routes = [
   {
     path: '/dashboard/leads/add',
     name: 'AddLeads',
-    component: () => import('../views/dashboard/AddLead.vue'),
+    component: () => import('../views/dashboard/leads/AddLead.vue'),
     meta: {
       requireLogin: true
     }
@@ -34,7 +34,7 @@ const routes = [
   {
     path: '/dashboard/leads/:id',
     name: 'Lead',
-    component: () => import('../views/dashboard/Lead.vue'),
+    component: () => import('../views/dashboard/leads/Lead.vue'),
     meta: {
       requireLogin: true
     }
@@ -42,7 +42,7 @@ const routes = [
   {
     path: '/dashboard/leads/:id/edit',
     name: 'EditLead',
-    component: () => import('../views/dashboard/EditLead.vue'),
+    component: () => import('../views/dashboard/leads/EditLead.vue'),
     meta: {
       requireLogin: true
     }
@@ -53,9 +53,17 @@ const routes = [
     component: () => import('../views/dashboard/MyAccount.vue')
   },
   {
+    path: '/dashboard/edit-member/:id',
+    name: 'EditUser',
+    component: () => import('../views/dashboard/teams/EditUser.vue'),
+    meta: {
+      requireLogin: true
+    }
+  },
+  {
     path: '/dashboard/add-team',
     name: 'AddTeam',
-    component: () => import('../views/dashboard/AddTeam.vue'),
+    component: () => import('../views/dashboard/teams/AddTeam.vue'),
     meta: {
       requireLogin: true
     }
@@ -63,7 +71,7 @@ const routes = [
   {
     path: '/dashboard/add-member',
     name: 'AddMember',
-    component: () => import('../views/dashboard/AddMember.vue'),
+    component: () => import('../views/dashboard/teams/AddMember.vue'),
     meta: {
       requireLogin: true
     }
@@ -71,7 +79,55 @@ const routes = [
   {
     path: '/dashboard/team',
     name: 'Team',
-    component: () => import('../views/dashboard/Team.vue'),
+    component: () => import('../views/dashboard/teams/Team.vue'),
+    meta: {
+      requireLogin: true
+    }
+  },
+  {
+    path: '/dashboard/clients',
+    name: 'Clients',
+    component: () => import('../views/dashboard/clients/Clients.vue'),
+    meta: {
+      requireLogin: true
+    }
+  },
+  {
+    path: '/dashboard/clients/add',
+    name: 'AddClient',
+    component: () => import('../views/dashboard/clients/AddClient.vue'),
+    meta: {
+      requireLogin: true
+    }
+  },
+  {
+    path: '/dashboard/clients/:id',
+    name: 'Client',
+    component: () => import('../views/dashboard/clients/Client.vue'),
+    meta: {
+      requireLogin: true
+    }
+  },
+  {
+    path: '/dashboard/clients/:id/edit',
+    name: 'EditClient',
+    component: () => import('../views/dashboard/clients/EditClient.vue'),
+    meta: {
+      requireLogin: true
+    }
+  },
+  {
+    path: '/dashboard/clients/:id/add-note',
+    name: 'AddNote',
+    component: () => import('../views/dashboard/clients/notes/AddNote.vue'),
+    meta: {
+      requireLogin: true
+    }
+  },
+  {
+    path: '/dashboard/clients/:id/edit-note/:note_id',
+    name: 'EditNote',
+    component: () => import('../views/dashboard/clients/notes/EditNote.vue'),
     meta: {
       requireLogin: true
     }

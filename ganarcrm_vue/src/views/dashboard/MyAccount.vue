@@ -6,6 +6,15 @@
           <strong>My Account</strong>
         </h1>
       </div>
+      <div class="column is-12">
+        <div class="buttons">
+          <router-link
+            class="button is-primary"
+            :to="{ name: 'EditUser', params: { id: $store.state.user.id } }"
+            >Edit</router-link
+          >
+        </div>
+      </div>
     </div>
   </div>
 </template>

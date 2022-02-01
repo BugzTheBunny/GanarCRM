@@ -5,22 +5,27 @@
         <h1 class="title">
           <strong>{{ team.name }}</strong>
         </h1>
-        <router-link :to="{ name: 'AddMember' }" class="button is-primary"
-          >Add Member</router-link
-        >
+        <template v-if="team.created_by.id === parseInt($store.state.user.id)">
+          <router-link :to="{ name: 'AddMember' }" class="button is-primary"
+            >Add Member</router-link
+          >
+        </template>
+
         <div class="column is-12">
           <h2 class="subtitle">Members</h2>
 
           <table class="table is-fullwidth">
             <thead>
               <tr>
-                <th>Name</th>
+                <th>Username</th>
+                <th>Full name</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="member in team.members" v-bind:key="member.id">
                 <td>{{ member.username }}</td>
+                <td>{{ member.first_name }} {{ member.last_name }}</td>
               </tr>
             </tbody>
           </table>
@@ -38,6 +43,7 @@ export default {
     return {
       team: {
         members: [],
+        created_by: {},
       },
     };
   },
