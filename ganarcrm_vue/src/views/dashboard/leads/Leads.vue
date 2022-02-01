@@ -4,12 +4,45 @@
       <div class="column is-8">
         <h1 class="title">Leads</h1>
       </div>
-      <div class="column is-2">
-        <router-link class="button is-info" to="/dashboard/leads/add"
-          >Add Lead
-        </router-link>
+      <div class="column is-4">
+        <div class="buttons">
+          <router-link class="button is-info" to="/dashboard/leads/add"
+            >Add Lead
+          </router-link>
+          <form @submit.prevent="filterTable">
+            <div class="field has-addons">
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="Lead.."
+                  v-model="query"
+                />
+              </div>
+              <div class="control">
+                <button class="button is-success">Search</button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
       <div class="column is-12">
+        <div class="buttons">
+          <button
+            class="button is-light"
+            v-if="showPreviousButton"
+            @click="goToPreviousPage()"
+          >
+            <strong> Previous </strong>
+          </button>
+          <button
+            class="button is-light"
+            v-if="showNextButton"
+            @click="goToNextPage()"
+          >
+            <strong>Next</strong>
+          </button>
+        </div>
         <table class="table is-fullwidth">
           <thead>
             <tr>
@@ -29,6 +62,9 @@
                   {{ lead.assigned_to.first_name }}
                   {{ lead.assigned_to.last_name }}
                 </td>
+              </template>
+              <template v-else>
+                <td></td>
               </template>
               <td>{{ lead.status }}</td>
               <td>
@@ -61,6 +97,10 @@ export default {
   data() {
     return {
       leads: [],
+      showNextButton: false,
+      showPreviousButton: false,
+      currentPage: 1,
+      query: "",
     };
   },
 
@@ -69,19 +109,44 @@ export default {
   },
 
   methods: {
+    goToNextPage() {
+      this.currentPage += 1;
+      this.getLeads();
+    },
+
+    goToPreviousPage() {
+      this.currentPage -= 1;
+      this.getLeads();
+    },
+
     async getLeads() {
       this.$store.commit("setIsLoading", true);
 
       await axios
-        .get("/api/v1/leads/")
+        .get(`/api/v1/leads/?page=${this.currentPage}&search=${this.query}`)
         .then((response) => {
-          this.leads = response.data;
+          this.leads = response.data.results;
+
+          if (response.data.next) {
+            this.showNextButton = true;
+          } else {
+            this.showNextButton = false;
+          }
+
+          if (response.data.previous) {
+            this.showPreviousButton = true;
+          } else {
+            this.showPreviousButton = false;
+          }
         })
         .catch((error) => {
           console.log(error);
         });
 
       this.$store.commit("setIsLoading", false);
+    },
+    filterTable() {
+      this.getLeads();
     },
   },
 };
