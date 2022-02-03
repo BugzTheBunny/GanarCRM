@@ -7,7 +7,7 @@ from django.db import models
 
 class Plan(models.Model):
     name = models.CharField(max_length=255)
-    max_lead = models.IntegerField(default=5)
+    max_leads = models.IntegerField(default=5)
     max_clients = models.IntegerField(default=5)
     price = models.IntegerField(default=0)
 

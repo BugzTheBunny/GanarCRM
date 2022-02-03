@@ -15,6 +15,13 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Stripe
+STRIPE_PUB_KEY = "pk_test_51KPAI1HDXISD2uCPQpLrQ1UPF9IYYOTh4SkvNZLS0Mywy219JFuVFt7nbbR80aJ2pnjxOaypJq4oSoO3oOZYrGed00YVmAQrkH"
+STRIPE_SECRET_KEY = "sk_test_51KPAI1HDXISD2uCPxbyUyuWOiNrdbnoWCh5zGX0GXI0utsoF96MiLEFBq0kJiL4IxnOHl4gggbnCdKQ3VbgC8UUq00PZnopsfi"
+
+STRIPE_PRICE_ID_SMALL_TEAM = 'price_1KPAMXHDXISD2uCPUootTFRq'
+STRIPE_PRICE_ID_BIG_TEAM = 'price_1KPANkHDXISD2uCPQnbwh2Ur'
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/

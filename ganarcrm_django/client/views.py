@@ -17,7 +17,7 @@ from rest_framework.response import Response
 
 
 class ClientPagination(PageNumberPagination):
-    page_size = 4
+    page_size = 5
 
 
 class ClientViewSet(viewsets.ModelViewSet):

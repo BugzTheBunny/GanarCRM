@@ -1,10 +1,11 @@
 from urllib import response
 from venv import create
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework import viewsets, status
-from .models import Team
+from .models import Team, Plan
 from .serializers import TeamSerializer, UserSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -46,8 +47,35 @@ class UserDetail(APIView):
 
 
 @api_view(['GET'])
+def get_stripe_pub_key(request):
+    pub_key = settings.STRIPE_PUB_KEY
+    return Response({'pub_key': pub_key})
+
+
+@api_view(['GET'])
 def get_my_team(request):
     team = Team.objects.filter(members__in=[request.user]).first()
+    serialzer = TeamSerializer(team)
+    return Response(serialzer.data)
+
+
+@api_view(['POST'])
+def upgrade_plan(request):
+    team = Team.objects.filter(members__in=[request.user]).first()
+    plan = request.data['plan']
+
+    print('Plan', plan)
+
+    if plan == 'free':
+        plan = Plan.objects.get(name='Free')
+    elif plan == 'smallteam':
+        plan = Plan.objects.get(name='Small team')
+    elif plan == 'bigteam':
+        plan = Plan.objects.get(name='Big Team')
+
+    team.plan = plan
+    team.save()
+
     serialzer = TeamSerializer(team)
     return Response(serialzer.data)
 
