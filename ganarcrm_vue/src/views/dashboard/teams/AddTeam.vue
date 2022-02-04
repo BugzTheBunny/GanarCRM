@@ -58,7 +58,7 @@ export default {
             name: response.data.name,
           });
 
-          this.$router.push("dashboard");
+          this.$router.push({ name: "Team" });
         })
         .catch((error) => {
           console.log(error);

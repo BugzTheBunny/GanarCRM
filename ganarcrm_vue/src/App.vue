@@ -15,6 +15,7 @@
   </div>
 </template>
 
+
 <script>
 import Navbar from "@/components/layout/Navbar";
 import axios from "axios";
@@ -25,8 +26,6 @@ export default {
   },
   beforeCreate() {
     this.$store.commit("initializeStore");
-
-    console.log(this.$store.state.team);
 
     if (this.$store.state.token) {
       axios.defaults.headers.common["Authorization"] =
@@ -41,7 +40,11 @@ export default {
   },
 };
 </script>
-
+<style scoped>
+[v-cloak] {
+  display: none;
+}
+</style>
 <style lang="scss">
 @import "../node_modules/bulma";
 

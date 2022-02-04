@@ -85,6 +85,22 @@ const routes = [
     }
   },
   {
+    path: '/dashboard/teams/plans',
+    name: 'Plans',
+    component: () => import('../views/dashboard/teams/Plans.vue'),
+    meta: {
+      requireLogin: true
+    }
+  },
+  {
+    path: '/dashboard/teams/thanks',
+    name: 'PlansThankYou',
+    component: () => import('../views/dashboard/teams/PlansThankYou.vue'),
+    meta: {
+      requireLogin: true
+    }
+  },
+  {
     path: '/dashboard/clients',
     name: 'Clients',
     component: () => import('../views/dashboard/clients/Clients.vue'),

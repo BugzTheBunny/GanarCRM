@@ -114,6 +114,9 @@ export default {
           this.$store.commit("setTeam", {
             id: response.data.id,
             name: response.data.name,
+            plan: response.data.plan.name,
+            max_leads: response.data.plan.max_leads,
+            max_clients: response.data.plan.max_clients,
           });
         })
         .catch((error) => {

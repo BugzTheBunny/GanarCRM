@@ -20,8 +20,11 @@
           <template v-if="lead.assigned_to">
             <p>
               <strong>Assigned to: </strong>
-              {{ lead.assigned_to.first_name }}
-              {{ lead.assigned_to.last_name }}
+              <template v-if="lead.assigned_to.first_name">
+                {{ lead.assigned_to.first_name }}
+                {{ lead.assigned_to.last_name }}
+              </template>
+              <template v-else>No name yet..</template>
             </p>
           </template>
           <p><strong>Status: </strong>{{ lead.status }}</p>
@@ -70,6 +73,7 @@ export default {
         .get(`/api/v1/leads/${leadId}/`)
         .then((response) => {
           this.lead = response.data;
+          console.log(this.lead.assigned_to);
         })
         .catch((error) => {
           console.log(error);

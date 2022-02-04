@@ -1,6 +1,10 @@
 # Ganar CRM Demo & Tutorial
 ### This is a text tutorial of Django 3 (DRF) with Vue3 CLI combined.
 
+
+#### Finished:
+Done, kind of, only boring repetetive stuff are left, so starting the [next tutorial](https://www.youtube.com/watch?v=RXSzhuYeYOI&list=PLpyspNLjzwBk3oofmtqs0KMD3DY9BjNwp&ab_channel=CodeWithStein) 
+
 Original Tutorial is [HERE](https://www.youtube.com/watch?v=7rxHWX730nE&list=PLpyspNLjzwBl-u7Vh8mGfqqRKcVxHzqlp&index=2) (Made by Code With Stein (`Subscribe to him, he is awesome`))
 
 **I'm making this for myself for the future, and for more practice.

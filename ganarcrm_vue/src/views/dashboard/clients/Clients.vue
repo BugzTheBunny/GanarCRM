@@ -1,4 +1,4 @@
-<template>
+<template >
   <div class="container">
     <div class="columns is-multiline">
       <div class="column is-8">
@@ -6,9 +6,15 @@
       </div>
       <div class="column is-4">
         <div class="buttons">
-          <router-link class="button is-info" to="/dashboard/clients/add"
+          <router-link
+            v-if="$store.state.team.max_clients > total_clients"
+            class="button is-info"
+            :to="{ name: 'AddClient' }"
             >Add Client
           </router-link>
+          <div class="notification is-danger" v-else>
+            Max clients amount reached, please upgrade plan.
+          </div>
           <form @submit.prevent="filterTable">
             <div class="field has-addons">
               <div class="control">
@@ -91,6 +97,7 @@ export default {
   data() {
     return {
       clients: [],
+      total_clients: 0,
       showNextButton: false,
       showPreviousButton: false,
       currentPage: 1,
@@ -114,6 +121,15 @@ export default {
     },
     async getClients() {
       this.$store.commit("setIsLoading", true);
+
+      await axios
+        .get(`/api/v1/clients/`)
+        .then((response) => {
+          this.total_clients = response.data.count;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
       await axios
         .get(`/api/v1/clients/?page=${this.currentPage}&search=${this.query}`)
